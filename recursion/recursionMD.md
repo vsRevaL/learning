@@ -1,6 +1,6 @@
 # Recursion
 
-References: 
+Main References: 
 - https://www.youtube.com/watch?v=IJDJ0kBx2LM
 - https://www.youtube.com/channel/UClEEsT7DkdVO_fkrBw0OTrA
 
@@ -110,7 +110,7 @@ public class Solution{
 }
 ```
 
-# Fibonacci (Non-Optimized).
+## Fibonacci (Non-Optimized).
 
 ```java
 public class Solution{
@@ -542,6 +542,58 @@ boolean depthFirstSearch(Node node, Set<Node> visited, int goal){
     return false;
 }
 ```
+
+### Connected Cells in a Grid
+
+https://www.hackerrank.com/challenges/connected-cell-in-a-grid/problem
+
+
+```cs
+public static int connectedCell(List<List<int>> m)
+{
+    int max = 0;
+    int curr;
+    for (int i = 0; i < m.Count; i++)
+    {
+        for (int j = 0; j < m[i].Count; j++)
+        {
+            if (m[i][j] == 1)
+            {
+                curr = countCells(m, i, j);
+                if (curr > max)
+                {
+                    max = curr;
+                }
+            }
+        }
+    }
+
+    return max;
+}
+
+public static int countCells(List<List<int>> m, int i, int j)
+{
+    if (i < 0 || j < 0 || i >= m.Count || j >= m[i].Count || m[i][j] == 0)
+    {
+        return 0;
+    }
+
+    int cc = 1;
+    m[i][j] = 0;
+
+    cc += countCells(m, i - 1, j - 1);
+    cc += countCells(m, i + 1, j + 1);
+    cc += countCells(m, i - 1, j);
+    cc += countCells(m, i + 1, j);
+    cc += countCells(m, i, j - 1);
+    cc += countCells(m, i, j + 1);
+    cc += countCells(m, i - 1, j + 1);
+    cc += countCells(m, i + 1, j - 1);
+
+    return cc;
+}
+```
+
 
 ## Memoization & Caching.
 
