@@ -4,6 +4,13 @@ source:
 - https://www.youtube.com/user/mycodeschool
 - https://www.youtube.com/watch?v=zuegQmMdy8M&t=6176s
 
+## Compile and Run `.c` source code
+
+```
+gcc main.c -o main
+./main
+```
+
 ## Pointer arithmetic
 
 ```java
