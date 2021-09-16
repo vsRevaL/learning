@@ -216,10 +216,12 @@ int main()
 ```java
 include <stdio.h>
 
-int sumOfElements(int A[]) // int* A 
+int sumOfElements(int A[]) // interpreted as => int* A 
 {
     int s = 0;
-    for(int i=0; i < sizeof(A[])/sizeof(A[0]); i++){
+    // this will not work since sizeof(A) is 4 bcs it's an int,
+    // while in the main method A is an array.
+    for(int i=0; i < sizeof(A[])/sizeof(A[0]); i++){ 
       
         s += A[i];
     }
