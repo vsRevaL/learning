@@ -4,7 +4,7 @@ source:
 - https://www.youtube.com/user/mycodeschool
 - https://www.youtube.com/watch?v=zuegQmMdy8M&t=6176s
 
-## Compile and Run `.c` source code
+## Compile and Run `.c` file
 
 ```
 gcc main.c -o main
@@ -31,6 +31,7 @@ int main()
 	return 0;
 }
 ```
+
 <br>
 
 ## Pointer types, void pointer, arithmetic
@@ -49,6 +50,7 @@ int *p = &a;
 printf p //200
 printf *p //look at 4 bytes starting from 200 -> value of 1025
 ```
+
 <br>
 
 ```java
@@ -82,6 +84,7 @@ printf("size of integer is %d bytes\n", sizeof(int));
 printf("Address = %d, value = %d\n",p0+1,*(p0+1));
 1025 = 00000000 00000000 [00000100] 00000001
 ```
+
 ### void pointer
 
 ```java
@@ -111,8 +114,11 @@ q = &p;
 int*** r;
 r = &q;
 ```
+
 ![img.png](img.png)
+
 ### Code:
+
 ```java
 int x = 5;
 int* p = &x;
@@ -150,7 +156,9 @@ int main()
     printf("%d\n",a);
 }
 ```
+
 ## Pointers and Arrays
+
 ```java
 Address - &A[i] or (A+i)
 Value - A[i] or *(A+i)
@@ -170,8 +178,11 @@ for(i=0; i<5; i++){
 }
 
 ```
+
 ## Arrays as function arguments
+
 ✅
+
 ```java
 include <stdio.h>
 
@@ -197,9 +208,11 @@ int main()
     return 0;
 }
 ```
+
 <br>
 
 ❌
+
 ```java
 include <stdio.h>
 
@@ -224,7 +237,11 @@ int main()
     return 0;
 }
 ```
-### **Always pass the array size as a function parameter!**
+
+**Always pass the array size as a function parameter!**
+
+<br>
+
 ## Character array (Strings) and pointers
 
 1. How to store String
@@ -242,19 +259,21 @@ Rule : - A string in C has to be null terminated
 
         int main()
         {
-        char c[20];
-        c[0] = 'J';
-        c[1] = 'O';
-        c[2] = 'H';
-        c[3] = 'N';
-        c[4] = '\0';
-        int len = strlen(c);
-        printf("Length = %d\n", len); // 4
+            char c[20];
+            c[0] = 'J';
+            c[1] = 'O';
+            c[2] = 'H';
+            c[3] = 'N';
+            c[4] = '\0';
+            int len = strlen(c);
+            printf("Length = %d\n", len); // 4
 
-        return 0;
+            return 0;
         }
 ```
+
 2. Arrays and pointers are different types that are used in similar manner
+
 ```java
 char c1[6] = "Hello";
 char* c2;
@@ -263,6 +282,7 @@ c2 = c1; ✅
 print c2[1]; // e
 c2[0] = 'A'; // "Aello"
 ```
+
 3. Arrays are always passed to function by reference
 
 ```java
@@ -291,15 +311,17 @@ int main()
 ```
 
 ## Character arrays and pointers - part 2
+
 ```java
-char c[20] = "Hello"; // string gets stored in the space for array
-char *c = "Hello"; // string gets stored as compile time costant
+char c[20] = "Hello"; // string gets stored in the space for array (stack)
+char *c = "Hello"; // string gets stored as compile time costant, cannot be modified
 c[0] = 'A'; ❌
-printf("Hello World");
 ```
 
 ## Pointers and Matrix
+
 ![img_1.png](img_1.png)
+
 ```java
 int B[2][3];
 B[0]; B[1] -> 1-D arrays of 3 integers
@@ -317,6 +339,7 @@ B[i][j] = *(B[i] + j)
 ```
 
 ![img_2.png](img_2.png)
+
 ```java
 int B[2][3];
 int (*p)[3] = B;✅
@@ -328,7 +351,9 @@ print &B[0][0] // 400
 ```
 
 ## Pointers and multi-dimensional arrays
+
 ![img_3.png](img_3.png)
+
 ```java
 int c[3][2][2];
 int (*p)[2][2] = c;
@@ -342,6 +367,7 @@ c[i][j][k] = *(c[i][j] + k)
 print *(c[0][1] + 1); // 9
 print *(c[1] + 1); // 824
 ```
+
 ```java
 include <stdio.h>
 void func(int A[][2][2])
@@ -362,7 +388,9 @@ int main()
     func(c);
 }
 ```
+
 ## Pointers and dynamic memory
+
 C (functions)
 * malloc
 * calloc
@@ -376,6 +404,7 @@ c++ (operators)
 <br>
 
   ![img_4.png](img_4.png)
+
 ```java
 include <stdio.h>
 include <stdlib.h>
@@ -393,7 +422,9 @@ int main()
     return 0;
 }
 ```
+
 to make array on the heap:
+
 ```java
 p = (int*)malloc(20*sizeof(int)); // int array of 20 elements
 // p will point to the base address of the array block
@@ -409,15 +440,18 @@ print p // 208
 *(p+1) = 4;
 *(p+2) = 6;
 ```
+
 ```java
 calloc - void* calloc(size_t num, size_t size);
 int *p = (int*)calloc(3,sizeof(int));
 ```
+
 ```java
 realloc - void* realloc(void* tr, size_t size);
 ```
 
 Read array size from the user:
+
 ```java
 include <stdio.h>
 include <stdlib.h>
@@ -441,10 +475,12 @@ int main()
     return 0;
 }
 ```
+
 When ```malloc``` isn't inicialized, all array variable is a memory garbage; <br>
 with ```calloc``` every array variable is inicialized ```0```
 
 To free the heap memory:
+
 ```java
 for(int i = 0; i < n; i++){
         A[i] = i+1;
@@ -457,7 +493,9 @@ for(int i = 0; i < n; i++){
         printf("%d ", A[i]);
     }
 ```
+
 If we want to modify the ```size``` of the ```array```, we use ```realloc```:
+
 ```java
 include <stdio.h>
 include <stdlib.h>
@@ -489,9 +527,11 @@ int main()
 ```
 
 ## Pointers as function returns
+
 ![img_6.png](img_6.png)
 
 ❌:
+
 ```java
 #include <stdio.h>
 #include <stdlib.h>
@@ -511,7 +551,9 @@ int main()
     return 0;
 }
 ```
+
 ✅
+
 ```java
 #include <stdio.h>
 #include <stdlib.h>
@@ -532,6 +574,7 @@ int main()
     return 0;
 }
 ```
+
 ## Function pointers
 
 **Pointers**
@@ -562,6 +605,7 @@ int main()
     return 0;
 }
 ```
+
 ```java
 include <stdio.h>
 
@@ -633,6 +677,7 @@ int main()
     }
 }
 ```
+
 ```java
 include <stdio.h>
 include <math.h>
