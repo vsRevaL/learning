@@ -1,4 +1,4 @@
-# SEE: [C# (link)](https://github.com/vsRevaL/c-sharp)
+# See my C# repo: [C# (link)](https://github.com/vsRevaL/c-sharp)
 
 <br>
 <br>
