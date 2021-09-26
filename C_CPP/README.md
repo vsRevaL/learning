@@ -1,4 +1,4 @@
-# [C / C++](https://github.com/vsRevaL/c-cpp)
+# See my C/C++ repo: [LINK](https://github.com/vsRevaL/c-cpp)
 
 <br>
 <br>
