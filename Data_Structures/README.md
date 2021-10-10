@@ -1,6 +1,6 @@
-# Data Structures
+# Data Structures in C/C++
 
-- [**Linked Lists**](https://github.com/vsRevaL/c-cpp/blob/main/Data_Structures/LinkedList/Data_StructuresC.md)
+## See my C/C++ repo: [LINK](https://github.com/vsRevaL/c-cpp/tree/main)
 
 <br>
 <br>
