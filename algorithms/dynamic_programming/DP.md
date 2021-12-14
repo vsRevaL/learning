@@ -434,13 +434,93 @@ print(BestSum(100, new List<int>() {1, 2, 5, 25}, newMemo())); // [25, 25, 25, 2
 
 ## CanConstruct
 
-To Do
+Write a function `CanConstruct(target, wordBank)` that accepts a target string and an array of strings.
+
+The function should return boolean indicating whether or not the `target` can be constructed by concatenating elements of the `wordBank` array.
+We may reuse elements of `wordBank` as many times as needed.
+
+### Straight to DP Solution
+
+```cs
+using System;
+using System.Collections.Generic;
+
+bool CanConstruct(string target, string[] wordBank, Dictionary<string, bool> memo)
+{
+    if (memo.ContainsKey(target)) { return memo[target]; }
+    if (target == "") { return true; }
+
+    foreach (string word in wordBank)
+    {
+        if (target.IndexOf(word) == 0)
+        {
+            string suffix = target.Substring(word.Length);
+            if (CanConstruct(suffix, wordBank, memo))
+            {
+                memo[target] = true;
+                return true;
+            }
+        }
+    }
+
+    memo[target] = false;
+    return false;
+}
+
+Dictionary<string, bool> memo() => new Dictionary<string, bool>();
+Action<bool> print = Console.WriteLine;
+print(CanConstruct("abcdef", new string[] { "ab", "abc", "cd", "def", "abcd" }, memo())); //true
+print(CanConstruct("skateboard", new string[] { "bo", "rd", "ate", "t", "ska", "sk", "boar" }, memo())); //false
+print(CanConstruct("abcdef", new string[] { "ab", "abc", "cd", "def", "abcd" }, memo())); //true
+print(CanConstruct("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef",
+        new string[] { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" }, memo())); //false
+```
 
 <br>
 
 ## CountConstruct
 
-To Do
+Write a function `CountConstruct(target, wordBank)` that accepts a target string and an array of strings.
+
+The function should return `the number of ways` that the 'target' can be constructed by concatenating elements of the `rowBank` array.
+
+```cs
+using System;
+using System.Collections.Generic;
+
+int CanConstruct(string target, string[] wordBank, Dictionary<string, int> memo)
+{
+    if (memo.ContainsKey(target)) { return memo[target]; }
+    if (target == "") { return 1; }
+
+    int count = 0;
+    foreach (string word in wordBank)
+    {
+        if (target.IndexOf(word) == 0)
+        {
+            string suffix = target.Substring(word.Length);
+            int waysCount = CanConstruct(suffix, wordBank, memo);
+            if (waysCount > 0)
+            {
+                count += waysCount;
+            }
+        }
+    }
+
+    memo[target] = count;
+    return memo[target];
+}
+
+Dictionary<string, int> memo() => new Dictionary<string, int>();
+Action<int> print = Console.WriteLine;
+print(CanConstruct("purple", new string[] { "purp", "p", "ur", "le", "purpl" }, memo())); //2
+print(CanConstruct("abcdef", new string[] { "ab", "abc", "cd", "def", "abcd" }, memo())); //1
+print(CanConstruct("skateboard", new string[] { "bo", "rd", "ate", "t", "ska", "sk", "boar" }, memo())); //0
+print(CanConstruct("enterapotentpot", new string[] { "a", "p", "ent", "enter", "ot", "o", "t" }, memo())); //4
+print(CanConstruct("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef",
+        new string[] { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" }, memo())); //0
+
+```
 
 <br>
 
