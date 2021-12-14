@@ -1,4 +1,4 @@
-# Dynamic Programming With C#
+# Dynamic Programming
 
 <br>
 
@@ -428,30 +428,32 @@ print(BestSum(100, new List<int>() {1, 2, 5, 25}, newMemo())); // [25, 25, 25, 2
 `O(m^2) space`
 
 <br>
+<br>
 
 # Construct problems
 
 ## CanConstruct
 
-## CountConstruct
-
-## allConstruct
+To Do
 
 <br>
 
+## CountConstruct
 
+To Do
 
+<br>
 
+## AllConstruct
 
+To Do
 
+<br>
+<br>
 
+# Change problems
 
--------------------------------------------------------------------------------------------------------------------------
-
-## Change problems
-
-
-### Can we make a change/sum?
+## Can we make a change/sum?
 
 Write a function `CanChange(target, coins)` that takes in a target amount and an array of coins.
 
@@ -518,7 +520,9 @@ Console.WriteLine(CanChange(8, new int[] {2, 3, 5}, new List<int>())); // True
 Console.WriteLine(CanChange(300, new int[] {7, 14}, new List<int>())); // False
 ```
 
-### How can we make a change? - Memo
+<br>
+
+## How can we make a change? - Memo
 
 Write a function `howChange(target, coins)` that takes in a target amount and an array of coins as arguments.
 
@@ -526,11 +530,72 @@ The function should return an array containing any combination of elements that 
 
 If there are multiple combinations possible, you may return any single one.
 
-```cs
+### Brute Force Solution
 
+```cs
+void print(List<int> nums)
+{
+    if (nums == null)
+    {
+        Console.WriteLine("null");
+        return;
+    }
+    Console.WriteLine(string.Join(", ", nums));
+    Console.WriteLine();
+}
+
+List<int> HowChange(int target, List<int> coins)
+{
+    if (target == 0) return new List<int>();
+    if (target < 0) return null;
+
+    foreach (int coin in coins)
+    {
+        int diff = target - coin;
+        List<int> temp = HowSum(diff, coins);
+        if (temp != null)
+        {
+            temp.Add(coin);
+            return temp;
+        }
+    }
+
+    return null;
+}
+
+print(HowSum(7, new List<int>() { 2, 3 })); // [3, 2, 2,]
+print(HowSum(7, new List<int>() { 5, 3, 4, 7 })); // [4, 3]
+print(HowSum(7, new List<int>() { 2, 4 })); // null
+print(HowSum(8, new List<int>() { 2, 3, 5 })); // [2, 2, 2, 2]
+print(HowSum(300, new List<int>() { 7, 14 })); // (...)
 ```
 
-### Fewest Coin To Make Change - Memo
+### Dynamic Programming Solution - Memoization 
+
+```cs
+void print(List<int> nums)
+{
+    if (nums == null)
+    {
+        Console.WriteLine("null");
+        return;
+    }
+    Console.WriteLine(string.Join(", ", nums));
+    Console.WriteLine();
+}
+
+
+
+print(HowSum(7, new List<int>() { 2, 3 })); // [3, 2, 2,]
+print(HowSum(7, new List<int>() { 5, 3, 4, 7 })); // [4, 3]
+print(HowSum(7, new List<int>() { 2, 4 })); // null
+print(HowSum(8, new List<int>() { 2, 3, 5 })); // [2, 2, 2, 2]
+print(HowSum(300, new List<int>() { 7, 14 })); // null
+```
+
+<br>
+
+## Fewest Coin To Make Change - Memo
 
 #### Input:
 
@@ -591,7 +656,9 @@ goal = 90;
 System.Console.WriteLine( LeastCoin(coins, goal)); // 10
 ```
 
-### Total Unique Ways To Make Change - Memo
+<br>
+
+## Total Unique Ways To Make Change - Memo
 
 Similar problems:
 - Longest Common Subsequence - Memo
@@ -638,6 +705,11 @@ System.Console.WriteLine( TotalCoinChange(new long[]{1,2,5}, 5) ); // 4
 ```
 Time: `O(amount * #coins)` <br>
 Space: `O(amount * #coins)`
+
+<br>
+<br>
+
+# Popular problems
 
 ## LCS - Longest Common Subsequence - Memo
 
