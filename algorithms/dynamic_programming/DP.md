@@ -131,7 +131,7 @@ Console.WriteLine(GridTraveler(18, 18, new Dictionary<string, long>())); // 2333
 <br>
 <br>
 
-# Sum/Change problems - Memoization
+# Sum problems - Memoization
 
 ## CanSum
 
@@ -524,7 +524,7 @@ Console.WriteLine(CanChange(300, new int[] {7, 14}, new List<int>())); // False
 
 ## How can we make a change? - Memo
 
-Write a function `howChange(target, coins)` that takes in a target amount and an array of coins as arguments.
+Write a function `HowChange(target, coins)` that takes in a target amount and an array of coins as arguments.
 
 The function should return an array containing any combination of elements that add up to exactly the target amount. If theres is no combination that adds up to the target amount, then return null.
 
@@ -563,11 +563,11 @@ List<int> HowChange(int target, List<int> coins)
     return null;
 }
 
-print(HowSum(7, new List<int>() { 2, 3 })); // [3, 2, 2,]
-print(HowSum(7, new List<int>() { 5, 3, 4, 7 })); // [4, 3]
-print(HowSum(7, new List<int>() { 2, 4 })); // null
-print(HowSum(8, new List<int>() { 2, 3, 5 })); // [2, 2, 2, 2]
-print(HowSum(300, new List<int>() { 7, 14 })); // (...)
+print(HowChange(7, new List<int>() { 2, 3 })); // [3, 2, 2,]
+print(HowChange(7, new List<int>() { 5, 3, 4, 7 })); // [4, 3]
+print(HowChange(7, new List<int>() { 2, 4 })); // null
+print(HowChange(8, new List<int>() { 2, 3, 5 })); // [2, 2, 2, 2]
+print(HowChange(300, new List<int>() { 7, 14 })); // (...)
 ```
 
 ### Dynamic Programming Solution - Memoization 
@@ -584,13 +584,33 @@ void print(List<int> nums)
     Console.WriteLine();
 }
 
+List<int> HowChange(int target, List<int> coins, Dictionary<int, List<int>> memo)
+{
+    if (memo.ContainsKey(target)) return memo[target];
+    if (target == 0) return new List<int>();
+    if (target < 0) return null;
 
+    foreach (int coin in coins)
+    {
+        int diff = target - coin;
+        List<int> temp = HowChange(diff, coins, memo);
+        if (temp != null)
+        {
+            temp.Add(coin);
+            memo.Add(target, new List<int>(temp));
+            return temp;
+        }
+    }
 
-print(HowSum(7, new List<int>() { 2, 3 })); // [3, 2, 2,]
-print(HowSum(7, new List<int>() { 5, 3, 4, 7 })); // [4, 3]
-print(HowSum(7, new List<int>() { 2, 4 })); // null
-print(HowSum(8, new List<int>() { 2, 3, 5 })); // [2, 2, 2, 2]
-print(HowSum(300, new List<int>() { 7, 14 })); // null
+    memo.Add(target, null);
+    return null;
+}
+
+print(HowChange(7, new List<int>() { 2, 3 })); // [3, 2, 2,]
+print(HowChange(7, new List<int>() { 5, 3, 4, 7 })); // [4, 3]
+print(HowChange(7, new List<int>() { 2, 4 })); // null
+print(HowChange(8, new List<int>() { 2, 3, 5 })); // [2, 2, 2, 2]
+print(HowChange(300, new List<int>() { 7, 14 })); // null
 ```
 
 <br>
@@ -649,11 +669,11 @@ int FewestCoinChange(int[] coins, int remainder, int[] dp)
 
 int[] coins = new int[]{1, 2, 3};
 int goal = 10;
-System.Console.WriteLine( LeastCoin(coins, goal)); // 4
+System.Console.WriteLine(LeastCoin(coins, goal)); // 4
 
 coins = new int[]{1, 3, 5, 6, 9};
 goal = 90;
-System.Console.WriteLine( LeastCoin(coins, goal)); // 10
+System.Console.WriteLine(LeastCoin(coins, goal)); // 10
 ```
 
 <br>
