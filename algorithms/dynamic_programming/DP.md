@@ -2,10 +2,10 @@
 
 <br>
 
-**Main reference:**
+## **Main references:**
 
-- https://www.youtube.com/watch?v=oBt53YbR9Kk
-- https://coderbyte.com/
+### https://www.youtube.com/watch?v=oBt53YbR9Kk
+### https://coderbyte.com/
 
 ## Fibonacci
 
