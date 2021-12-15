@@ -590,6 +590,9 @@ Tabulation is all about building a table iteratively.
 
 ## Fibonacci tabulation
 
+- The oth number of the sequence is 0.
+- The 1st number of the sequence is 1.
+
 `fib(6) -> 8`: we need a 7 element table 
 
 | ![img.png](Content/img.png) | ![img_1.png](Content/img_1.png)
@@ -600,11 +603,112 @@ Tabulation is all about building a table iteratively.
 `O(n) space`
 
 ```cs
+using System;
 
+long Fib(long n)
+{
+    long[] memo = new long[n + 1];
+    memo[1] = 1;
+
+    for (long i = 0; i <= n; i++)
+    {
+        try
+        {
+            memo[i + 1] += memo[i];
+            memo[i + 2] += memo[i];
+        }
+        catch (Exception) { }
+    }
+
+    return memo[n];
+}
+
+Console.WriteLine(Fib(6)); //8
+Console.WriteLine(Fib(40)); // 102334155
+Console.WriteLine(Fib(90)); // 2880067194370816120
+```
+
+```cs
+using System;
+
+long Fib(long n)
+{
+    long[] memo = new long[n + 1];
+    memo[1] = 1;
+
+    for (long i = 0; i <= n; i++)
+    {
+        if (i < n) { memo[i + 1] += memo[i]; }
+        if (i < n - 1) { memo[i + 2] += memo[i]; }
+    }
+
+    return memo[n];
+}
+
+Console.WriteLine(Fib(6)); //8
+Console.WriteLine(Fib(40)); // 102334155
+Console.WriteLine(Fib(90)); // 2880067194370816120
 ```
 
 <br>
+
+## Grid Traveler Tabulation
+
+| ![img.png](img.png) | ![img_1.png](img_1.png)
+| ------------------  | --------------------------
+| ![img_3.png](img_3.png) | ![img_2.png](img_2.png)
+
+```cs
+using System;
+
+long GridTraveler(int n, int m)
+{
+    long[][] memo = new long[n + 1][];
+    for (int i = 0; i <= n; i++)
+    {
+        memo[i] = new long[m + 1];
+    }
+
+    memo[1][1] = 1;
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= m; j++)
+        {
+            if (j + 1 <= m) { memo[i][j + 1] += memo[i][j]; }
+            if (i + 1 <= n) { memo[i + 1][j] += memo[i][j]; }
+        }
+    }
+
+    return memo[n][m];
+}
+
+Console.WriteLine(GridTraveler(1, 1)); // 1
+Console.WriteLine(GridTraveler(2, 3)); // 3
+Console.WriteLine(GridTraveler(3, 2)); // 3
+Console.WriteLine(GridTraveler(3, 3)); // 6
+Console.WriteLine(GridTraveler(4, 5)); // 35
+Console.WriteLine(GridTraveler(5, 4)); // 35
+Console.WriteLine(GridTraveler(18, 18)); // 2333606220
+```
+
 <br>
+
+## Tabulation Recipe
+
+- visualize the problem as a table
+- size the table based on the inputs
+- initialize the table with default values
+- seed the trivial answer into the table
+- iterate through the table with some logic
+- fill further positions based on the current position
+
+<br>
+
+## CanSum Tabulation
+
+```cs
+
+```
 
 # Change problems
 
