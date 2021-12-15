@@ -32,9 +32,9 @@ Console.WriteLine(Fib(50)); // (...)
 
 ### Dynamic Programming Solution - Memoization
 
-| ![img_5.png](img_5.png) | ![img_9.png](img_9.png)
+| ![img_5.png](content/img_5.png) | ![img_9.png](content/img_9.png)
 | -------------- | --------------
-| ![img_10.png](img_10.png) |![img_8.png](img_8.png)
+| ![img_10.png](content/img_10.png) |![img_8.png](content/img_8.png)
 
 ```cs
 using System;
@@ -66,9 +66,9 @@ You are a traveler on a 2D grid. You begin in the top-left corner and your goal 
 
 How many ways can you travel to the goal on a grid with dimensions `m * n`?
 
-| ![img_11.png](img_11.png) | ![img_12.png](img_12.png)
+| ![img_11.png](content/img_11.png) | ![img_12.png](content/img_12.png)
 | ------------------------- | ----------------------------
-| ![img_14.png](img_14.png) | ![img_13.png](img_13.png)
+| ![img_14.png](content/img_14.png) | ![img_13.png](content/img_13.png)
 
 ### Brute Force Solution
 
@@ -142,7 +142,7 @@ Console.WriteLine(GridTraveler(18, 18, new Dictionary<string, long>())); // 2333
 
 # Sum problems - Memoization
 
-| ![img_15.png](img_15.png) | ![img_16.png](img_16.png)
+| ![img_15.png](content/img_15.png) | ![img_16.png](content/img_16.png)
 | --------------------------- | ----------------------
 ## CanSum
 
@@ -443,7 +443,7 @@ print(BestSum(100, new List<int>() {1, 2, 5, 25}, newMemo())); // [25, 25, 25, 2
 
 # Construct problems
 
-| ![img_17.png](img_17.png) | ![img_18.png](img_18.png)
+| ![img_17.png](content/img_17.png) | ![img_18.png](content/img_18.png)
 | ------------------------- | --------------------------
 
 
@@ -592,9 +592,9 @@ Tabulation is all about building a table iteratively.
 
 `fib(6) -> 8`: we need a 7 element table 
 
-| ![img.png](img.png) | ![img_1.png](img_1.png)
+| ![img.png](content/img.png) | ![img_1.png](content/img_1.png)
 | ------------------- | -------------
-| ![img_2.png](img_2.png) | ![img_3.png](img_3.png)
+| ![img_2.png](content/img_2.png) | ![img_3.png](content/img_3.png)
 
 `O(n) time` <br>
 `O(n) space`
