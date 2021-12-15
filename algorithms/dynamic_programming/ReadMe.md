@@ -32,9 +32,9 @@ Console.WriteLine(Fib(50)); // (...)
 
 ### Dynamic Programming Solution - Memoization
 
-| ![img_5.png](content/img_5.png) | ![img_9.png](content/img_9.png)
+| ![img_5.png](Content/img_5.png) | ![img_9.png](Content/img_9.png)
 | -------------- | --------------
-| ![img_10.png](content/img_10.png) |![img_8.png](content/img_8.png)
+| ![img_10.png](Content/img_10.png) |![img_8.png](Content/img_8.png)
 
 ```cs
 using System;
@@ -142,7 +142,7 @@ Console.WriteLine(GridTraveler(18, 18, new Dictionary<string, long>())); // 2333
 
 # Sum problems - Memoization
 
-| ![img_15.png](content/img_15.png) | ![img_16.png](content/img_16.png)
+| ![img_15.png](Content/img_15.png) | ![img_16.png](Content/img_16.png)
 | --------------------------- | ----------------------
 ## CanSum
 
@@ -443,7 +443,7 @@ print(BestSum(100, new List<int>() {1, 2, 5, 25}, newMemo())); // [25, 25, 25, 2
 
 # Construct problems
 
-| ![img_17.png](content/img_17.png) | ![img_18.png](content/img_18.png)
+| ![img_17.png](Content/img_17.png) | ![img_18.png](Content/img_18.png)
 | ------------------------- | --------------------------
 
 
@@ -592,9 +592,9 @@ Tabulation is all about building a table iteratively.
 
 `fib(6) -> 8`: we need a 7 element table 
 
-| ![img.png](content/img.png) | ![img_1.png](content/img_1.png)
+| ![img.png](Content/img.png) | ![img_1.png](Content/img_1.png)
 | ------------------- | -------------
-| ![img_2.png](content/img_2.png) | ![img_3.png](content/img_3.png)
+| ![img_2.png](Content/img_2.png) | ![img_3.png](Content/img_3.png)
 
 `O(n) time` <br>
 `O(n) space`
