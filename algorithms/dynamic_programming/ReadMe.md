@@ -66,9 +66,9 @@ You are a traveler on a 2D grid. You begin in the top-left corner and your goal 
 
 How many ways can you travel to the goal on a grid with dimensions `m * n`?
 
-| ![img_11.png](content/img_11.png) | ![img_12.png](content/img_12.png)
+| ![img_11.png](Content/img_11.png) | ![img_12.png](Content/img_12.png)
 | ------------------------- | ----------------------------
-| ![img_14.png](content/img_14.png) | ![img_13.png](content/img_13.png)
+| ![img_14.png](Content/img_14.png) | ![img_13.png](Content/img_13.png)
 
 ### Brute Force Solution
 
