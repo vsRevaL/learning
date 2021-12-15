@@ -706,8 +706,45 @@ Console.WriteLine(GridTraveler(18, 18)); // 2333606220
 
 ## CanSum Tabulation
 
-```cs
+Write a function `CanSum(targetSum, numbers)` that takes in a `targetSum` and an array of numbers as arguments.
 
+The function should return a boolean indicating whether or not it is possible to generate the targetSum using numbers from the array.
+
+You may use an element of the array as many times as needed.
+You may assume that all input members are nonnegative.
+
+| ![img_4.png](img_4.png) | ![img_5.png](img_5.png)
+| ------------------------| ----------------------
+| ![img_6.png](img_6.png) | ![img_7.png](img_7.png)
+| ![img_8.png](img_8.png) | ![img_10.png](img_10.png)
+
+```cs
+using System;
+
+bool CanSum(int target, int[] nums)
+{
+    bool[] memo = new bool[target + 1];
+    memo[0] = true;
+
+    for (int i = 0; i < memo.Length; i++)
+    {
+        if (memo[i] == true)
+        {
+            for (int j = 0; j < nums.Length; j++)
+            {
+                if (i + nums[j] < memo.Length) { memo[i + nums[j]] = true;  }
+            }
+        }
+    }
+
+    return memo[^1]; //last element
+}
+
+Console.WriteLine(CanSum(7, new int[] { 2, 3 })); // True
+Console.WriteLine(CanSum(7, new int[] { 5, 3, 4, 7 })); // True
+Console.WriteLine(CanSum(7, new int[] { 2, 4 })); // False
+Console.WriteLine(CanSum(8, new int[] { 2, 3, 5 })); // True
+Console.WriteLine(CanSum(300, new int[] { 7, 14 })); // False
 ```
 
 # Change problems
