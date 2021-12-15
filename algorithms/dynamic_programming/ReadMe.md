@@ -7,6 +7,8 @@
 ### https://www.youtube.com/watch?v=oBt53YbR9Kk
 ### https://coderbyte.com/
 
+<br>
+
 ## Fibonacci
 
 ### Brute Force Solution
@@ -20,7 +22,7 @@ long Fib (long n) {
 }
 
 Console.WriteLine(Fib(40)); // 102334155
-Console.WriteLine(Fib(50)); // (...)
+Console.WriteLine(Fib(50)); // (...) 
 ```
 
 #### Complexity Brute Force: Exponential
@@ -28,8 +30,11 @@ Console.WriteLine(Fib(50)); // (...)
 `O(2^n) time` <br>
 `O(n) space `
 
-
 ### Dynamic Programming Solution - Memoization
+
+| ![img_5.png](img_5.png) | ![img_9.png](img_9.png)
+| -------------- | --------------
+| ![img_10.png](img_10.png) |![img_8.png](img_8.png)
 
 ```cs
 using System;
@@ -60,6 +65,10 @@ Console.WriteLine(Fib(90, new Dictionary<long, long>())); // 2880067194370816120
 You are a traveler on a 2D grid. You begin in the top-left corner and your goal is to travel to the bottom-right corner. You may only move down or right.
 
 How many ways can you travel to the goal on a grid with dimensions `m * n`?
+
+| ![img_11.png](img_11.png) | ![img_12.png](img_12.png)
+| ------------------------- | ----------------------------
+| ![img_14.png](img_14.png) | ![img_13.png](img_13.png)
 
 ### Brute Force Solution
 
@@ -133,6 +142,8 @@ Console.WriteLine(GridTraveler(18, 18, new Dictionary<string, long>())); // 2333
 
 # Sum problems - Memoization
 
+| ![img_15.png](img_15.png) | ![img_16.png](img_16.png)
+| --------------------------- | ----------------------
 ## CanSum
 
 Write a function `CanSum(targetSum, numbers)` that takes in a targetSum and an array of numbers as arguments.
@@ -432,6 +443,10 @@ print(BestSum(100, new List<int>() {1, 2, 5, 25}, newMemo())); // [25, 25, 25, 2
 
 # Construct problems
 
+| ![img_17.png](img_17.png) | ![img_18.png](img_18.png)
+| ------------------------- | --------------------------
+
+
 ## CanConstruct
 
 Write a function `CanConstruct(target, wordBank)` that accepts a target string and an array of strings.
@@ -519,14 +534,74 @@ print(CanConstruct("skateboard", new string[] { "bo", "rd", "ate", "t", "ska", "
 print(CanConstruct("enterapotentpot", new string[] { "a", "p", "ent", "enter", "ot", "o", "t" }, memo())); //4
 print(CanConstruct("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef",
         new string[] { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" }, memo())); //0
-
 ```
 
 <br>
 
 ## AllConstruct
 
-To Do
+The function should return a 2D array containing all of the ways that the `target` can be constructed by concatenating elements of the `wordBank` array. Each element of the 2D array should represent one combination that constructs the `target`.
+
+```cs
+let AllConstruct = (target, wordBank) => {
+    if (target === '') return [[]];
+
+    let result = [];
+    for (let word of wordBank) {
+        if (target.indexOf(word) === 0) {
+            let suffix = target.slice(word.length);
+            let suffixWays = AllConstruct(suffix, wordBank);
+            let targetWays = suffixWays.map(way => [ word, ...way ]);
+            result.push(...targetWays);
+        }
+    }
+
+    return result;
+}
+
+console.log(AllConstruct('purple', [ 'purp', 'p', 'ur', 'le', 'purpl' ]));
+//  [
+//    [ purp, le ]
+//    [ p, ur, p, le ]
+//  ]
+
+console.log(AllConstruct('abcdef', [ 'ab', 'abc', 'cd', 'def', 'abcd', 'ef', 'c' ]));
+//  [
+//    [ ab, cd, ef ]
+//    [ ab, c, def ]
+//    [ abc, def ]
+//    [ abcd, ef ]
+//  ]
+
+console.log(AllConstruct('skateboard', [ 'bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar' ]));
+//  []
+
+console.log(AllConstruct('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz',
+    [ 'a', 'aa', 'aaa', 'aaaa', 'aaaaa' ]));
+//  []
+```
+
+<br>
+<br>
+
+# Tabulation Solutions
+
+Tabulation is all about building a table iteratively.
+
+## Fibonacci tabulation
+
+`fib(6) -> 8`: we need a 7 element table 
+
+| ![img.png](img.png) | ![img_1.png](img_1.png)
+| ------------------- | -------------
+| ![img_2.png](img_2.png) | ![img_3.png](img_3.png)
+
+`O(n) time` <br>
+`O(n) space`
+
+```cs
+
+```
 
 <br>
 <br>
