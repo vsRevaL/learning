@@ -1,28 +1,30 @@
-# Graph Algorithms for Technical Interviews - freeCodeCamp
+# Graph Algorithms for Technical Interviews
 
 ### Reference: https://youtu.be/tWVWeAqZ0WU
 
+![img_48.png](imgs/img_48.png)
+
 <br>
 
-| ![img.png](img.png) | ![img_1.png](img_1.png)
+| ![img.png](imgs/img.png) | ![img_1.png](imgs/img_1.png)
 | ----------------------- | -----------------
-| ![img_2.png](img_2.png) | ![img_3.png](img_3.png)G
+| ![img_2.png](imgs/img_2.png) | ![img_3.png](imgs/img_3.png)G
 
 - Depth first: `Stack`
 - Breadth first: `Queue`
 
 ## Depth
 
-|  ![img_4.png](img_4.png) | ![img_5.png](img_5.png)
+|  ![img_4.png](imgs/img_4.png) | ![img_5.png](imgs/img_5.png)
 | ------------- | -------------
-| ![img_6.png](img_6.png) | ![img_7.png](img_7.png) 
-| ![img_13.png](img_13.png) | ![img_8.png](img_8.png)
+| ![img_6.png](imgs/img_6.png) | ![img_7.png](imgs/img_7.png) 
+| ![img_13.png](imgs/img_13.png) | ![img_8.png](imgs/img_8.png)
 
 ## Breadth
 
-| ![img_9.png](img_9.png) | ![img_10.png](img_10.png)
+| ![img_9.png](imgs/img_9.png) | ![img_10.png](imgs/img_10.png)
 | -------------------------- | ------------
-| ![img_11.png](img_11.png) | ![img_12.png](img_12.png)
+| ![img_11.png](imgs/img_11.png) | ![img_12.png](imgs/img_12.png)
 
 <br>
 
@@ -177,10 +179,10 @@ BreadthFirstPrint(graph, 'a'); //abcdef
 
 ## has path - no cycle
 
-| ![img_14.png](img_14.png) | ![img_15.png](img_15.png)
+| ![img_14.png](imgs/img_14.png) | ![img_15.png](imgs/img_15.png)
 | -------------------------- | ---------------------
-|  ![img_16.png](img_16.png) | ![img_17.png](img_17.png)
-| ![img_19.png](img_19.png) | ![img_20.png](img_20.png)
+|  ![img_16.png](imgs/img_16.png) | ![img_17.png](imgs/img_17.png)
+| ![img_19.png](imgs/img_19.png) | ![img_20.png](imgs/img_20.png)
 
 ### Depth
 
@@ -247,16 +249,18 @@ console.log(hasPath(graph, 'f', 'j')); // false
 
 ## undirected path
 
-| ![img_21.png](img_21.png) | ![img_22.png](img_22.png)
+| ![img_21.png](imgs/img_21.png) | ![img_22.png](imgs/img_22.png)
 | ------------------------- | -----------
-| ![img_23.png](img_23.png) | ![img_24.png](img_24.png)
-| ![img_26.png](img_26.png) | ![img_27.png](img_27.png)
-| ![img_28.png](img_28.png) | ![img_29.png](img_29.png)
-| ![img_31.png](img_31.png) | ![img_32.png](img_32.png)
+| ![img_23.png](imgs/img_23.png) | ![img_24.png](imgs/img_24.png)
+| ![img_26.png](imgs/img_26.png) | ![img_27.png](imgs/img_27.png)
+| ![img_28.png](imgs/img_28.png) | ![img_29.png](imgs/img_29.png)
+| ![img_31.png](imgs/img_31.png) | ![img_32.png](imgs/img_32.png)
 
 <br>
 
 - first we have to convert our edges list into an adjacency list `buildGraph()`
+
+### JS
 
 ```js
 const undirectedGraph = (edges, nodeA, nodeB) => {
@@ -267,9 +271,8 @@ const undirectedGraph = (edges, nodeA, nodeB) => {
 const hasPath = (graph, src, dest, visited) => {
     if (visited.has(src)) return false;
     if (src == dest) return true;
-
+    visited.add(src);
     for (let neighbor of graph[src]) {
-        visited.add(src);
         if (hasPath(graph, neighbor, dest, visited) == true) {
             return true;
         }
@@ -304,13 +307,72 @@ console.log(undirectedGraph(edges, 'j', 'm')); // -> true
 console.log(undirectedGraph(edges, 'i', 'n')); // -> false
 ```
 
+### C#
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+bool HasPath(List<List<char>> edges, char src, char dest) => 
+        HasPathRec(BuildGraph(edges), src, dest, new HashSet<char>());
+
+
+bool HasPathRec(Dictionary<char, List<char>> graph, char src, char dest, HashSet<char> visited)
+{
+    if (visited.Contains(src)) return false;
+    if (src == dest) return true;
+
+    visited.Add(src);
+    foreach (char neighbor in graph[src])
+    {
+        if (HasPathRec(graph, neighbor, dest, visited) == true)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+Dictionary<char, List<char>> BuildGraph(List<List<char>> edges)
+{
+    var graph = new Dictionary<char, List<char>>();
+    foreach (List<char> edge in edges)
+    {
+        char a = edge[0];
+        char b = edge[1];
+        if (!graph.ContainsKey(a)) graph.Add(a, new List<char>());
+        if (!graph.ContainsKey(b)) graph.Add(b, new List<char>());
+        graph[a].Add(b);
+        graph[b].Add(a);
+    }
+
+    graph.ToList().ForEach(x => Console.WriteLine(x.Key + ": [" + string.Join(", ", x.Value) + "]"));
+    return graph;
+}
+
+List<List<char>> edges = new List<List<char>>()
+{
+    new List<char>() {'i', 'j'},
+    new List<char>() {'k', 'i'},
+    new List<char>() {'m', 'k'},
+    new List<char>() {'k', 'l'},
+    new List<char>() {'o', 'n'},
+};
+
+Console.WriteLine(HasPath(edges, 'i', 'm') + "\n"); //-> True
+Console.WriteLine(HasPath(edges, 'i', 'n')); //-> False
+
+```
+
 <br>
 
 ## connected components count
 
-| ![img_33.png](img_33.png) | ![img_34.png](img_34.png)
+| ![img_33.png](imgs/img_33.png) | ![img_34.png](imgs/img_34.png)
 | ------------------------- | -------
-| ![img_35.png](img_35.png) | ![img_36.png](img_36.png)
+| ![img_35.png](imgs/img_35.png) | ![img_36.png](imgs/img_36.png)
 
 ### JS
 
@@ -431,7 +493,7 @@ Console.WriteLine(ConnectedComponentsCount(graph2)); //-> 0
 
 ## largest component
 
-| ![img_37.png](img_37.png) | ![img_38.png](img_38.png)
+| ![img_37.png](imgs/img_37.png) | ![img_38.png](imgs/img_38.png)
 | ------------------------- | -----------------------------
 
 ### C#
@@ -498,21 +560,218 @@ Console.WriteLine(LargestComponent(graph2)); //-> 5
 
 <br>
 
-## sortest path
+## shortest path
 
-| ![img_39.png](img_39.png) | ![img_40.png](img_40.png)
+| ![img_39.png](imgs/img_39.png) | ![img_40.png](imgs/img_40.png)
 | ------------------------- | ------------
-| ![img_41.png](img_41.png) | ![img_42.png](img_42.png)
+| ![img_41.png](imgs/img_41.png) | ![img_42.png](imgs/img_42.png)
 
 **Breath first is better in this case, depth first could be unlucky**
 
-| ![img_43.png](img_43.png) | ![img_46.png](img_46.png)
+| ![img_43.png](imgs/img_43.png) | ![img_46.png](imgs/img_46.png)
 | --------------------------| -----------
-| ![img_44.png](img_44.png) | ![img_47.png](img_47.png)
+| ![img_44.png](imgs/img_44.png) | ![img_47.png](imgs/img_47.png)
 
+### C#
 
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+int ShortestPath(List<List<char>> edges, char src, char dest)
+{
+    var graph = BuildGraph(edges);
+    var queue = new Queue<KeyValuePair<char, int>>(); //('V', 1)
+    queue.Enqueue(new KeyValuePair<char, int>(src, 0));
+
+    var visited = new HashSet<char>(src);
+    while (queue.Count > 0)
+    {
+        var curr = queue.Dequeue();
+        if (curr.Key == dest) return curr.Value; //find the shortes path
+
+        foreach (var neighbor in graph[curr.Key])
+        {
+            if (!visited.Contains(neighbor))
+            {
+                visited.Add(neighbor);
+                queue.Enqueue(new KeyValuePair<char, int>(neighbor, curr.Value + 1));
+            }
+        }
+    }
+
+    return -1; //no path
+}
+
+Dictionary<char, List<char>> BuildGraph(List<List<char>> edges)
+{
+    var graph = new Dictionary<char, List<char>>();
+    foreach (List<char> edge in edges)
+    {
+        char a = edge[0];
+        char b = edge[1];
+        if (!graph.ContainsKey(a)) graph.Add(a, new List<char>());
+        if (!graph.ContainsKey(b)) graph.Add(b, new List<char>());
+        graph[a].Add(b);
+        graph[b].Add(a);
+    }
+
+    graph.ToList().ForEach(x => Console.WriteLine(x.Key + ": [" + string.Join(", ", x.Value) + "]"));
+    return graph;
+}
+
+var edges = new List<List<char>>()
+{
+    new List<char>() { 'w', 'x' },
+    new List<char>() { 'x', 'y' },
+    new List<char>() { 'z', 'y' },
+    new List<char>() { 'z', 'v' },
+    new List<char>() { 'w', 'v' }
+};
+
+var edges_cycle = new List<List<char>>()
+{
+    new List<char>() { 'w', 'x' },
+    new List<char>() { 'x', 'y' },
+    new List<char>() { 'z', 'y' },
+    new List<char>() { 'w', 'v' },
+    new List<char>() { 'v', 'y' }
+};
+
+var edges_cycle_noPath = new List<List<char>>()
+{
+    new List<char>() { 'w', 'x' },
+    new List<char>() { 'x', 'v' },
+    new List<char>() { 'v', 'w' },
+};
+
+Console.WriteLine(ShortestPath(edges, 'w', 'z') +  "\n"); //-> 2
+Console.WriteLine(ShortestPath(edges_cycle, 'w', 'z')); //-> 3
+Console.WriteLine(ShortestPath(edges_cycle_noPath, 'w', 'z')); //-> -1  no such path
+```
 
 <br>
+
+## island problems
+
+### island count
+
+| ![img_50.png](imgs/img_50.png)| ![img_52.png](imgs/img_52.png)
+| ------------------------- | ------------------------
+| ![img_53.png](imgs/img_53.png) | ![img_54.png](imgs/img_54.png)
+| ![img_55.png](imgs/img_55.png) | ![img_56.png](imgs/img_56.png)
+
+**L - Land**
+
+**W - Water**
+
+```cs
+using System;
+using System.Collections.Generic;
+
+int IslandCount(List<List<char>> grid)
+{
+    int island_count = 0;
+    for (int i = 0; i < grid.Count; i++)
+    {
+        for (int j = 0; j < grid[i].Count; j++)
+        {
+            if (grid[i][j] == 'L')
+            {
+                Explore(grid, i, j);
+                island_count++;
+            }
+        }
+    }
+
+    return island_count;
+}
+
+void Explore(List<List<char>> grid, int i, int j) //Depth First
+{
+    if (i < 0 || j < 0 || i >= grid.Count ||
+        j >= grid[i].Count || grid[i][j] == 'W') return;
+
+    grid[i][j] = 'W'; //HashSet<string> visited.Add(i + "," + j);
+    Explore(grid, i - 1, j);
+    Explore(grid, i, j + 1);
+    Explore(grid, i, j - 1);
+    Explore(grid, i + 1, j);
+}
+
+var grid = new List<List<char>>()
+{
+    new List<char>() { 'W', 'L', 'W', 'W', 'L' },
+    new List<char>() { 'W', 'L', 'W', 'W', 'W' },
+    new List<char>() { 'W', 'W', 'W', 'L', 'W' },
+    new List<char>() { 'W', 'W', 'L', 'L', 'W' },
+    new List<char>() { 'L', 'W', 'W', 'L', 'L' },
+    new List<char>() { 'L', 'L', 'W', 'W', 'W' }
+};
+
+Console.WriteLine(IslandCount(grid)); //-> 4
+```
+
+### largest/maximum island
+
+```cs
+using System;
+using System.Collections.Generic;
+
+int IslandCount(List<List<char>> grid)
+{
+    int max = 0;
+    for (int i = 0; i < grid.Count; i++)
+    {
+        for (int j = 0; j < grid[i].Count; j++)
+        {
+            if (grid[i][j] == 'L')
+            {
+                int current = Explore(grid, i, j);
+                max = current > max ? current : max;
+            }
+        }
+    }
+
+    return max;
+}
+
+int Explore(List<List<char>> grid, int i, int j) //Depth First
+{
+    if (i < 0 || j < 0 || i >= grid.Count ||
+        j >= grid[i].Count || grid[i][j] == 'W') return 0;
+
+    grid[i][j] = 'W'; //HashSet<string> visited.Add(i + "," + j);
+    int field_count = 1;
+    field_count += Explore(grid, i - 1, j);
+    field_count += Explore(grid, i, j + 1);
+    field_count += Explore(grid, i, j - 1);
+    field_count += Explore(grid, i + 1, j);
+
+    return field_count;
+}
+
+var grid = new List<List<char>>()
+{
+    new List<char>() { 'W', 'L', 'W', 'W', 'L' },
+    new List<char>() { 'W', 'L', 'W', 'W', 'W' },
+    new List<char>() { 'W', 'W', 'W', 'L', 'W' },
+    new List<char>() { 'W', 'W', 'L', 'L', 'W' },
+    new List<char>() { 'L', 'W', 'W', 'L', 'L' },
+    new List<char>() { 'L', 'L', 'W', 'W', 'W' }
+};
+
+Console.WriteLine(IslandCount(grid)); //-> 5
+```
+
+similar problem: https://www.hackerrank.com/challenges/connected-cell-in-a-grid/problem
+
+<br>
+
+**Ende.**
+
+**Reference: https://youtu.be/tWVWeAqZ0WU**
 <br>
 <br>
 <br>
