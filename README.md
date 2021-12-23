@@ -1,4 +1,4 @@
 # Learning
 Codes, Notes covering Algorithms, Data Structures and others
 
-![img.png](img.png)
+![img_1.png](img_1.png)
