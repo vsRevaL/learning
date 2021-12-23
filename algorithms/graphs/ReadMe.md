@@ -259,9 +259,256 @@ console.log(hasPath(graph, 'f', 'j')); // false
 - first we have to convert our edges list into an adjacency list `buildGraph()`
 
 ```js
+const undirectedGraph = (edges, nodeA, nodeB) => {
+    const graph = buildGraph(edges);
+    return hasPath(graph, nodeA, nodeB, new Set());
+};
 
+const hasPath = (graph, src, dest, visited) => {
+    if (visited.has(src)) return false;
+    if (src == dest) return true;
 
+    for (let neighbor of graph[src]) {
+        visited.add(src);
+        if (hasPath(graph, neighbor, dest, visited) == true) {
+            return true;
+        }
+    }
+ 
+    return false;
+};
+
+const buildGraph = (edges) => {
+    const graph = {};
+
+    for (let edge of edges) {
+        const [a, b] = edge;
+        if (!(a in graph)) graph[a] = [];
+        if (!(b in graph)) graph[b] = [];
+        graph[a].push(b);
+        graph[b].push(a);
+    }
+
+    return graph;
+};
+
+const edges = [
+    ['i', 'j'],
+    ['k', 'i'],
+    ['m', 'k'],
+    ['k', 'l'],
+    ['o', 'n']
+];
+
+console.log(undirectedGraph(edges, 'j', 'm')); // -> true
+console.log(undirectedGraph(edges, 'i', 'n')); // -> false
 ```
+
+<br>
+
+## connected components count
+
+| ![img_33.png](img_33.png) | ![img_34.png](img_34.png)
+| ------------------------- | -------
+| ![img_35.png](img_35.png) | ![img_36.png](img_36.png)
+
+### JS
+
+```js
+const connectedComponentsCount = (graph) => {
+    const visited = new Set();
+    let count = 0;
+    for (let node in graph) {
+        if (explore(graph, node, visited) == true) {
+            count++;
+        }
+    }
+
+    return count;
+}; 
+
+const explore = (graph, current, visited) => {
+    if (visited.has(String(current))) return false;
+
+    visited.add(String(current));
+
+    for (let neighbor of graph[current]) {
+        explore(graph, neighbor, visited);
+    }
+
+    return true;
+};
+
+const graph = {
+    0: [8, 1, 5],
+    1: [0],
+    5: [0, 8],
+    8: [0, 5],
+    2: [3, 4],
+    3: [2, 4],
+    4: [3, 2]
+};
+
+const graph2 = {
+    1: [2],
+    2: [1],
+    3: [],
+    4: [6],
+    5: [6],
+    6: [4, 5, 8, 7],
+    7: [6],
+    8: [6]
+};
+
+console.log(connectedComponentsCount(graph)); // -> 2
+console.log(connectedComponentsCount(graph2)); // -> 3
+```
+
+### C#
+
+```cs
+using System;
+using System.Collections.Generic;
+
+int ConnectedComponentsCount(Dictionary<int, List<int>> graph)
+{
+    HashSet<int> visited = new HashSet<int>();
+    int field_count = 0;
+    foreach (KeyValuePair<int, List<int>> node in graph)
+    {
+        if (Explore(graph, node.Key, visited) == true)
+        {
+            field_count++;
+        }
+    }
+    return field_count;
+}
+
+bool Explore(Dictionary<int, List<int>> graph, int current, HashSet<int> visited)
+{
+    if (visited.Contains(current)) return false;
+    visited.Add(current);
+
+    foreach (int neighbor in graph[current])
+    {
+        Explore(graph, neighbor, visited);
+    }
+
+    return true;
+}
+
+Dictionary<int, List<int>> graph = new Dictionary<int, List<int>>()
+{
+    [0] = new List<int>() { 8, 1, 5 },
+    [1] = new List<int>() { 0 },
+    [5] = new List<int>() { 0, 8 },
+    [8] = new List<int>() { 0, 5 },
+
+    [2] = new List<int>() { 3, 4 },
+    [3] = new List<int>() { 2, 4 },
+    [4] = new List<int>() { 3, 2 }
+};
+
+Dictionary<int, List<int>> graph2 = new Dictionary<int, List<int>>()
+{
+    [1] = new List<int>() { 2 },
+    [2] = new List<int>() { 1 },
+
+    [3] = new List<int>(),
+
+    [4] = new List<int>() { 6 },
+    [5] = new List<int>() { 6 },
+    [6] = new List<int>() { 4, 5, 8, 7 },
+    [7] = new List<int>() { 6 },
+    [8] = new List<int>() { 6 }
+};
+
+Console.WriteLine(ConnectedComponentsCount(graph)); //-> 2
+Console.WriteLine(ConnectedComponentsCount(graph2)); //-> 0
+```
+
+<br>
+
+## largest component
+
+| ![img_37.png](img_37.png) | ![img_38.png](img_38.png)
+| ------------------------- | -----------------------------
+
+### C#
+
+```cs
+using System;
+using System.Collections.Generic;
+
+int LargestComponent(Dictionary<int, List<int>> graph)
+{
+    HashSet<int> visited = new HashSet<int>();
+    int max = 0; //size of the largest component
+    foreach (KeyValuePair<int, List<int>> node in graph)
+    {
+        int curr = Explore(graph, node.Key, visited);
+        max = curr > max ? curr : max;
+    }
+
+    return max;
+}
+
+int Explore(Dictionary<int, List<int>> graph, int current, HashSet<int> visited)
+{
+    if (visited.Contains(current)) return 0;
+    visited.Add(current); 
+    int field_size = 1;
+    foreach (int neighbor in graph[current])
+    {
+        field_size += Explore(graph, neighbor, visited);
+    }
+
+    return field_size;
+}
+
+Dictionary<int, List<int>> graph = new Dictionary<int, List<int>>()
+{
+    [0] = new List<int>() { 8, 1, 5 },
+    [1] = new List<int>() { 0 },
+    [5] = new List<int>() { 0, 8 },
+    [8] = new List<int>() { 0, 5 },
+
+    [2] = new List<int>() { 3, 4 },
+    [3] = new List<int>() { 2, 4 },
+    [4] = new List<int>() { 3, 2 }
+};
+
+Dictionary<int, List<int>> graph2 = new Dictionary<int, List<int>>()
+{
+    [1] = new List<int>() { 2 },
+    [2] = new List<int>() { 1 },
+
+    [3] = new List<int>(),
+
+    [4] = new List<int>() { 6 },
+    [5] = new List<int>() { 6 },
+    [6] = new List<int>() { 4, 5, 8, 7 },
+    [7] = new List<int>() { 6 },
+    [8] = new List<int>() { 6 }
+};
+
+Console.WriteLine(LargestComponent(graph)); //-> 4
+Console.WriteLine(LargestComponent(graph2)); //-> 5
+```
+
+<br>
+
+## sortest path
+
+| ![img_39.png](img_39.png) | ![img_40.png](img_40.png)
+| ------------------------- | ------------
+| ![img_41.png](img_41.png) | ![img_42.png](img_42.png)
+
+**Breath first is better in this case, depth first could be unlucky**
+
+| ![img_43.png](img_43.png) | ![img_46.png](img_46.png)
+| --------------------------| -----------
+| ![img_44.png](img_44.png) | ![img_47.png](img_47.png)
 
 
 
