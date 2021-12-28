@@ -5,6 +5,9 @@ Main References:
 
 ## Big-O Notation
 
+![img.png](img.png)
+![img_1.png](img_1.png)
+
 - How much `time` does this algorithm need to finish?
 - How much `space` does this algorithm need for its computation?
 
