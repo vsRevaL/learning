@@ -47,7 +47,7 @@ print(are_anagrams("asd", "sad"))
 Given a sorted array of intigers `arr` and an integer `target`, find the index of the first and last position of `target` in `arr`.
 If target can't be found in arr, return `[-1, -1]`
 
-### O(n)
+`O(n)`
 
 ```py
 def first_and_last(arr, target):
@@ -97,6 +97,85 @@ def first_and_last(arr, target):
 
 
 first_and_last([2, 4, 5, 5, 5, 5, 5, 7, 9, 9], 5)
+```
+
+## Kth largest element - using heap
+
+```py
+import heapq
+
+
+def kth_largest(arr, k):
+    arr = [-elem for elem in arr]
+    heapq.heapify(arr)
+    for i in range(k):
+        heapq.heappop(arr)
+    return -heapq.heappop(arr)
+
+
+print(kth_largest([4, 2, 9, 7, 5, 6, 7, 1, 3], 4))
+```
+
+## Symmetric tree
+
+### py
+
+```py
+```
+
+### C# with test data
+
+```cs
+class Node
+{
+    public int val;
+    public Node left;
+    public Node right;
+
+    public Node(int val)
+    {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class Program
+{
+    static bool AreSymmetric(Node root1, Node root2)
+    {
+        if (root1 == null && root2 == null) return true;
+        else if ((root1 == null) != (root2 == null) || root1.val != root2.val) return false;
+        else return AreSymmetric(root1.left, root2.right) && AreSymmetric(root1.right, root2.left);
+    }
+
+    static bool IsSymmetric(Node root)
+    {
+        if (root == null) return true;
+        return AreSymmetric(root.left, root.right);
+    }
+
+    static void Main()
+    {
+        Node root = new Node(2);
+        Node n1 = new Node(9);
+        Node n2 = new Node(9);
+        root.left = n1;
+        root.right = n2;
+
+        Node n3 = new Node(3);
+        Node n4 = new Node(3);
+        Node n5 = new Node(0);
+        Node n6 = new Node(0);
+        n1.left = n3;
+        n1.right = n6;
+        n2.left = n5;
+        n2.right = n4;
+
+        Console.WriteLine(IsSymmetric(root));
+    }
+}
+
 ```
 
 <br>
