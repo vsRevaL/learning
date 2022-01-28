@@ -747,6 +747,72 @@ Console.WriteLine(CanSum(8, new int[] { 2, 3, 5 })); // True
 Console.WriteLine(CanSum(300, new int[] { 7, 14 })); // False
 ```
 
+## howSum tabulation
+
+### JS
+
+```js
+const howSum = (targetSum, numbers) => {
+    const table = Array(targetSum + 1).fill(null);
+    table[0] = [];
+
+    for (let i = 0; i <= targetSum; i++) {
+        if (table[i] !== null) {
+            for (let num of numbers) {
+                table[i + num] = [ ...table[i], num];
+            }
+        }
+    }
+
+    return table[targetSum];
+}
+
+console.log(howSum(7, [2, 3])); //[3, 2, 2]
+console.log(howSum(7, [5, 3, 4, 7])); //[4, 3]
+console.log(howSum(7, [2, 4])); //null
+console.log(howSum(8, [2, 3, 5])); //[2, 2, 2, 2]
+console.log(howSum(300, [7, 14])); //null
+
+```
+
+### C#
+
+```cs
+List<int> HowSum(int target, List<int> nums)
+{
+    List<List<int>> table = new();
+    table.Add(new List<int>());
+    for (int i = 1; i <= target; i++) table.Add(null);
+
+    for (int i = 0; i <= target; i++)
+    {
+        if (table[i] != null)
+        {
+            foreach (int num in nums)
+            {
+                if (i + num <= target)
+                {
+                    table[i + num] = new List<int>(table[i]);
+                    table[i + num].Add(num);
+                }
+            }
+        }
+    }
+
+    return table[target];
+}
+
+void print(List<int> list) =>
+    Console.WriteLine(list != null ? "[" + string.Join(", ", list) + "]" : "null");
+
+print(HowSum(7, new List<int>() { 5, 3, 4 })); // [4, 3]
+print(HowSum(7, new List<int>() { 2, 3 })); // [3, 2, 2,]
+print(HowSum(7, new List<int>() { 2, 4 })); // null
+print(HowSum(8, new List<int>() { 2, 3, 5 })); // [2, 2, 2, 2]
+print(HowSum(300, new List<int>() { 7, 14 })); // null
+
+```
+
 <br>
 <br>
 <br>
