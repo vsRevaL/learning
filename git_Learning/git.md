@@ -49,7 +49,7 @@
 - `add`
 - `commit`
 - *Now the changes only saved on the `testbranch` branch.*
-- *Instead of `merge`, pushing changes on that branch (`testbranch` in this case) to Github and then making a pu (pull request) is more common.:*
+- *Instead of `merge`, pushing changes on that branch (`testbranch` in this case) to Github and then making a PR (pull request) is more common.:*
 - `git push --set-upstream origin testbranch`
 - *Now lets make a pr from the `testbranch` to the main branch on Github, and then merge them!*
 
