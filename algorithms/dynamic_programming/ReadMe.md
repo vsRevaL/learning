@@ -813,6 +813,90 @@ print(HowSum(300, new List<int>() { 7, 14 })); // null
 
 ```
 
+## bestSum tabulation
+
+return the shortest combination that adds up the targetSum
+
+### JS
+
+```js
+const bestSum = (targetSum, numbers) => {
+    const table = Array(targetSum + 1).fill(null);
+    table[0] = [];
+
+    for (let i = 0; i <= targetSum; i++) {
+        if (table[i] !== null) {
+            for (let num of numbers) {
+                const combination = [ ...table[i], num ];
+                if (table[i + num] == null) {
+                    table[i + num] = combination;
+                } 
+                else if (table[i + num].length > combination.length) {
+                    table[i + num] = combination;
+                }
+            }
+        }
+    }
+
+    return table[targetSum];
+}
+
+console.log(bestSum(7, [5, 3, 4, 7])); // [7]
+console.log(bestSum(8, [2, 3, 5])); // [3, 5]
+console.log(bestSum(100, [1, 2, 5, 25])); // [25, 25, 25, 25]
+```
+
+### C#
+
+```cs
+List<int> HowSum(int target, List<int> nums)
+{
+    List<List<int>> table = new();
+    table.Add(new List<int>());
+    for (int i = 1; i <= target; i++) table.Add(null);
+
+    for (int i = 0; i <= target; i++)
+    {
+        if (table[i] != null)
+        {
+            foreach (int num in nums)
+            {
+                if (i + num <= target)
+                {
+                    List<int> combination = new List<int>(table[i]);
+                    combination.Add(num);
+                    if (table[i + num] == null)
+                    {
+                        table[i + num] = combination;
+                    }
+                    else if (table[i + num].Count > combination.Count)
+                    {
+                        table[i + num] = combination;
+                    }
+                }
+            }
+        }
+    }
+
+    return table[target];
+}
+
+void print(List<int> list) =>
+    Console.WriteLine(list != null ? "[" + string.Join(", ", list) + "]" : "null");
+
+print(HowSum(7, new List<int>() { 5, 3, 4, 7 })); // [7]
+print(HowSum(8, new List<int>() { 2, 3, 5 })); // [3, 5]
+print(HowSum(8, new List<int>() { 1, 4, 5})); // [4, 4]
+print(HowSum(100, new List<int>() { 1, 2, 5, 25 })); // [25, 25, 25, 25]
+
+```
+
+## canConstruct
+
+```cs
+
+```
+
 <br>
 <br>
 <br>
