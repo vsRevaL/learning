@@ -141,19 +141,33 @@ class B : A
 
 ## LSP: THE LISKOV SUBSTITUTION PRINCIPLE
 
-![img_8.png](img_8.png)
-
 1988-ban Barbara Liskov ez alábbit írta a leszármazott típusok - altípusok meghatározásához:
 
-(ezt inkább nem fordítom)
-
-`Ami szeretnénk elérni, az a következő helyettesítési tulajdonság: If for each object o1 of type S
-there is an object o2 of type T such that for all programs P defined in terms of T, the behavior of P is
-unchanged when o1 is substituted for o2 then S is a subtype of T.
-1`
-
-`Ha minden S típusú o1 objektumra létezik egy T típusú o2 objektum úgy, hogy minden program P, amely T típusa szerint
+`Ami szeretnénk elérni, az a következő helyettesítési tulajdonság: Ha minden S típusú o1 objektumra létezik egy T típusú o2 objektum úgy, hogy minden program P, amely T típusa szerint
 lett definiálva, P viselkedése nem változik, amikor o1-t kicseréljük o2-re, akkor S altípusa T-nek`
+
+Ha ezt elmondod vizsgán, nagy király leszel.
+
+### Öröklődés használata
+
+Képzeljük el, hogy van egy `License` osztályunk `calFee()` metódussal, amit meghív a `Billing` alkalmazás.
+`Lincense`-nek két altípusa van: `PersonalLicense` és `BusinessLicense`, ők más algoritmust használnak a licensz díj kiszmítására.
+
+![img_9.png](img_9.png)
+
+Ez a dizájn nem sérti az `LSP`-t mivel a `Billing` alkalmazás nem függ attól, hogy melyik altípust használa,
+mindkét altípus helyettesíthető a `License` típussal.
+
+### A négyzet/téglalap probléma
+
+Legnépszerűbb példája a `LSP` megsértésének négyzet/téglalap probléma.
+
+![img_10.png](img_10.png)
+
+Ebben a példában a négyzet nem egy valid altípusa a téglalapnak,
+mivel ha ő egy négyzet, rá nem értelmezhetők a `setHeight()`, `setWidth` függvényke. 
+
+![img_8.png](img_8.png)
 
 <br>
 <br>
