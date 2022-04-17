@@ -108,9 +108,16 @@ Gyakori megoldás erre a dilemmára a [Homlokzat](https://hu.wikipedia.org/wiki/
 
 <br>
 
+## DIP: THE DEPENDENCY INVERSION PRINCIPLE
+
+Várjunk csak kicsit. A `SOLID` alapján most az `Open Closed` elv jönne, akkor mégis mit keres itt a függőség megfordítás? <br>
+Sajnos ahhoz, hogy az `OCP`-t mélyebben megértsük, először a `DIP`-el kell foglalkoznunk egy kicsit.
+
+<br>
+
 ## OCP: THE OPEN-CLOSED PRINCIPLE
 
-![img_6.png](img_6.png)
+[img_6.png](img_6.png)
 
 Az `OCP` 1988-ben lett feltalálva Bertrand Meyer által, és azt mondja ki:
 
@@ -137,18 +144,60 @@ class B : A
 }
 ```
 
+### Ez a történet egyszerű része, most nézzük meg az architektúra szempontjából
+
+Képzeljük el, hogy van egy rendszerünk, amely pénzügyi összesítéseket jelenít meg egy weboldalon.
+Az adatok görgethetőek, és a negetív számok pirosak. <br>
+Most képzeljük el, hogy az egyik szereplő ezt a pénzügyi információt átszeretné alakítani egy jelentésse,
+amely aztán kinyomtatható egy fekete-fehér papírra, szép fejlécekkel, láblécekkel, betűtípussal, negatív számok pedig zárójelben jelenjenek meg
+
+Ehhez egyértelműen új kódot kell írni, de mennyire kell megváltoztatni a már meglévő kódót?
+A célünk természetesen az, hogy a meglévő kódon minimálisat kelljen módosítani, ideális esetben semmennyit.
+
+Ezt úgy tudjak elérni, hogy először szétválasztjuk a részeket, amelyek különböző okok miatt változnak (az `SRP` elv), és
+utána pedig helyesen beállítjuk a függőségeket közöttük (`Dependency Inversion Principle`).
+
 <br>
 
 ## LSP: THE LISKOV SUBSTITUTION PRINCIPLE
 
-1988-ban Barbara Liskov ez alábbit írta a leszármazott típusok - altípusok meghatározásához:
+1988-ban Barbara Liskov az alábbit írta a leszármazott típusok - altípusok meghatározásához:
 
-`Ami szeretnénk elérni, az a következő helyettesítési tulajdonság: Ha minden S típusú o1 objektumra létezik egy T típusú o2 objektum úgy, hogy minden program P, amely T típusa szerint
+`Ha minden S típusú o1 objektumra létezik egy T típusú o2 objektum úgy, hogy minden program P, amely T típusa szerint
 lett definiálva, P viselkedése nem változik, amikor o1-t kicseréljük o2-re, akkor S altípusa T-nek`
 
-Ha ezt elmondod vizsgán, nagy király leszel.
+Ha ezt elmondod vizsgán, nagy király leszel, itt van angolul is:
 
-### Öröklődés használata
+`If for each object o1 of type S
+there is an object o2 of type T such that for all programs P defined in terms of T, the behavior of P is
+unchanged when o1 is substituted for o2 then S is a subtype of T.
+`
+
+Kicsit egyszerűbben:
+
+`Ha S a T altípusa, akkor a programban a T típusú objektumok bármely S típusú objektummal helyettesíthetők.`
+
+`If S is a subtype of T, then objects of type T in a program may be replaced with any objects of type S`
+
+<br>
+
+```cs
+class Animal
+{
+    public virtual void Run() { }
+}
+
+class Dog: Animal { }
+
+class Fish : Animal { }
+```
+
+A fenti példa megsérti a `LSP` elvet, mivel a halak nem tudnak futni,
+tehát rossz az absztrakciónk.
+
+![img_8.png](img_8.png)
+
+### További példák + Öröklődés használata
 
 Képzeljük el, hogy van egy `License` osztályunk `calFee()` metódussal, amit meghív a `Billing` alkalmazás.
 `Lincense`-nek két altípusa van: `PersonalLicense` és `BusinessLicense`, ők más algoritmust használnak a licensz díj kiszmítására.
@@ -164,10 +213,57 @@ Legnépszerűbb példája a `LSP` megsértésének négyzet/téglalap probléma.
 
 ![img_10.png](img_10.png)
 
-Ebben a példában a négyzet nem egy valid altípusa a téglalapnak,
-mivel ha ő egy négyzet, rá nem értelmezhetők a `setHeight()`, `setWidth` függvényke. 
+Ebben a példában a négyzet nem egy valid altípusa a téglalapnak, mivel a téglalap oldalait egymás függetlenül változtathatjuk,
+ellenben a négyzet magasságának és hosszának együtt kell változnia.
 
-![img_8.png](img_8.png)
+```cs
+Rectangle r = GetRandomRectangleSubtype(); //visszaad egy osztályt, ami öröklődik a Rectangle-ből
+r.SetW(5);
+r.SetH(2);
+Assert(e.area() == 10);
+```
+
+Ha a `GetRandomRectangleSubtype()` egy négyzetet ad vissza, akkor az assertion false-ra fog futni.
+
+<br>
+
+## ISP: THE INTERFACE SEGREGATION PRINCIPLE
+
+Interfész elválasztási elv. Több specifikus interfész jobb, mint egy általános. <br>
+A neve az alábbi ábrából származik:
+
+![img_11.png](img_11.png)
+
+Ebben a fenti szituációban több felhasználó van, akik az `OPS` osztály operációit használják. Mondjuk hogy a `User1` 
+csak az `op1`-et, a `User2` az `op2`, a `User3` meg az `op3`-t használja.
+Ha most ezt egy statikusan típusos nyelven írták, akkor a `User1` kódja, annak ellenére, hogy nem hívja meg, de akaratlanul is függni fog az `op2`, `op3`-tól, 
+mert ha az `op2` kódjában valamit megváltoztatunk, akkor az `OPS` kényszeríteni fogja az `User1` osztály újrafordítását
+pedig őt aztán rohadtul nem érdekelte, hogy az `op2`-ben valami megváltozott, mivel csak az `op1`-t használja.
+
+A megoldás, hogy az operációkat kivezessük interfészekbe, így a `User1`-nek már csak az `U1Ops` interface az egyetlen függősége.
+
+![img_12.png](img_12.png)
+
+### ISP és az architektúra
+
+Általánosan ártalmas olyan moduloktól függni, amelyket többet tartalmaznak, mint amire szükségünk van. <br>
+Nézzük az alábbi példát, a programozó egy rendszeren `S` dolgozik, és hozzá akar rakni egy framework-ot `F`.
+Tegyük fel, hogy `F` írói hozzákötötték egy adatbázishoz `D` a framework-ot. <br>
+Szóval `S`-nek függősége a `F`, amelynek pedig a `D`. <br>
+
+![img_13.png](img_13.png)
+
+Most mi a helyzet olyankor, hogyha `D`-nek vannak olyan funkciói, amiket `F` nem használ, ezáltal `S` sem.
+Ezeknek a funkcióknak a módosítása `D`-ben `F` újratelepítését eredményezhetik, ezáltal `S`-ét is. <br>
+Még rosszabb, ha az egyik funkció meghibásodik, az meghibásodást okozhat az `F` és `S`-ben is.
+
+### Konklúzió
+
+Szóval a fejezet végére már az alkalmazásunk olyan dolgok
+miatt hal meg, amelyek számunkra nem is lennének érdekesek.
+Ne függjünk olyan dolgoktól, amikre nincs szükségünk, mert olyan hibákkal találkozhatunk, amikre nem is számítunk.
+
+
 
 <br>
 <br>
